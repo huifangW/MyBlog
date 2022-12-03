@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>归档</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/me.css">
+</head>
+<body>
+<!-- 导航 -->
+<nav th:replace="_fragments :: menu(4)" class="ui inverted attached segment m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu" id="nav-menu">
+            <h2 class="ui teal header item">Blog</h2>
+            <a href="#" class="item m-mobile-hide"><i class="small home icon"></i>首页</a>
+            <a href="#" class="item m-mobile-hide"><i class="small idea icon"></i>分类</a>
+            <a href="#" class="item m-mobile-hide"><i class="small tags icon"></i>标签</a>
+            <a href="#" class="active item m-mobile-hide"><i class="small clone icon"></i>归档</a>
+            <div class="right item m-mobile-hide">
+                <div class="ui icon input">
+                    <input type="text" class="ui input" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="ui black icon button m-right-top m-not-mobile-hide" id="menu-item-toggle">
+            <i class="sidebar icon"></i>
+        </div>
+    </div>
+</nav>
+
+<div class="m-container-width-small">
+    <div class="ui container m-padded-tb-big">
+        <div class="ui top attached segment">
+            <div class="ui two column grid">
+                <div class="column">
+                    <h3 class="ui teal header">归档</h3>
+                </div>
+                <div class="right aligned column">
+                    共<h2 class="ui orange header m-inline-block" th:text="${blogCount}">10</h2>个
+                </div>
+            </div>
+        </div>
+        <!--/*/<th:block th:each="archive : ${archives}">/*/-->
+            <h3 class="ui center aligned header" th:text="${archive.key}">2022</h3>
+            <div class="ui fluid vertical menu">
+                <a th:href="@{/blogs/{id}(id=${blog.id})}" th:each="blog : ${archive.value}" href="#" target="=_blank" class="item">
+                    <span>
+                      <i class="ui teal circle icon"></i>
+                      <span th:text="${blog.title}">关于刻意练习的清单</span>
+                      <div th:text="${#dates.format(blog.updateAt, 'M月dd')}" class="ui teal left pointing basic label m-padded-tiny">9月03</div>
+                    </span>
+                    <div th:text="${blog.flag}" class="ui orange left pointing basic label m-padded-tiny">原创</div>
+                </a>
+            </div>
+        <!--/*/</th:block>/*/-->
+
+        <!--/*-->
+        <h3 class="ui center aligned header">2021</h3>
+        <div class="ui fluid vertical menu">
+            <a href="#" target="=_blank" class="item">
+            <span>
+              <i class="ui teal circle icon"></i>
+              关于刻意练习的清单
+              <div class="ui teal left pointing basic label m-padded-tiny">9月03</div>
+            </span>
+                <div class="ui orange left pointing basic label m-padded-tiny">原创</div>
+            </a>
+            <a href="#" target="=_blank" class="item">
+            <span>
+              <i class="ui teal circle icon"></i>
+              关于刻意练习的清单
+              <div class="ui teal left pointing basic label m-padded-tiny">9月03</div>
+            </span>
+                <div class="ui orange left pointing basic label m-padded-tiny">原创</div>
+            </a>
+            <a href="#" target="=_blank" class="item">
+            <span>
+              <i class="ui teal circle icon"></i>
+              关于刻意练习的清单
+              <div class="ui teal left pointing basic label m-padded-tiny">9月03</div>
+            </span>
+                <div class="ui orange left pointing basic label m-padded-tiny">原创</div>
+            </a>
+            <a href="#" target="=_blank" class="item">
+            <span>
+              <i class="ui teal circle icon"></i>
+              关于刻意练习的清单
+              <div class="ui teal left pointing basic label m-padded-tiny">9月03</div>
+            </span>
+                <div class="ui orange left pointing basic label m-padded-tiny">原创</div>
+            </a>
+        </div>
+        <!--*/-->
+    </div>
+</div>
+
+<!-- 底部footer -->
+<footer th:replace="_fragments :: footer" class="ui center aligned inverted attached segment">
+    <div class="ui container">
+        <div class="ui stackable inverted divided grid">
+            <div class="three wide column">空栏1</div>
+            <div class="three wide column">空栏2</div>
+            <div class="three wide column">空栏3</div>
+            <div class="seven wide column">空栏4</div>
+        </div>
+        <div class="ui section divider"></div>
+        <p class="m-opacity-tiny">Copyright © 2016 - 2022 Lirenmi Designed by Lirenmi</p>
+    </div>
+</footer>
+
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+<script type="text/javascript">
+    $("#menu-item-toggle").on("click", function () {
+        $("#nav-menu h2").nextAll().toggleClass("m-mobile-hide");
+    });
+</script>
+</body>
+</html>

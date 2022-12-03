@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+</head>
+<body>
+<!-- 导航 -->
+<nav class="ui inverted attached segment m-shadow-small" th:replace="admin/_fragments :: menu(2)">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu" id="nav-menu">
+            <h2 class="ui teal header item">管理后台</h2>
+            <a href="#" class="item m-mobile-hide"><i class="small home icon"></i>博客</a>
+            <a href="#" class="active item m-mobile-hide"><i class="small idea icon"></i>分类</a>
+            <a href="#" class="item m-mobile-hide"><i class="small tags icon"></i>标签</a>
+            <div class="ui inverted right menu m-mobile-hide">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img src="../../static/images/stevie.jpeg" alt="" class="ui avatar image">
+                        汪会芳
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item"> 注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui black icon button m-right-top m-not-mobile-hide" id="menu-item-toggle">
+            <i class="sidebar icon"></i>
+        </div>
+    </div>
+</nav>
+
+<!-- 中间内容 -->
+<div class="m-container-width-small m-padded-tb-big" style="flex: 1">
+    <div class="ui container">
+        <div class="ui positive message" th:if="${message}">
+            <i class="close icon"></i>
+            <div class="header" th:text="${message}">
+                登录成功
+            </div>
+        </div>
+        <div class="ui negative message" th:if="${errorMessage}">
+            <i class="close icon"></i>
+            <div class="header">操作失败</div>
+            <p th:utext="${errorMessage}">输入名称：[aaaa]<br>错误信息：[该分类已存在，不能重复登录]</p>
+        </div>
+        <a href="#" class="ui small teal basic add button"><i class="plus icon"></i>新增</a>
+        <table class="ui celled table" th:unless="${types.totalElements == 0}">
+            <thead>
+                <th></th>
+                <th>名称</th>
+                <th>操作</th>
+            </thead>
+            <tbody>
+                <tr th:each="type,itemStat:${types.content}">
+                    <td th:text="${itemStat.count}">1</td>
+                    <td th:text="${type.name}">认知升级</td>
+                    <td>
+                        <button class="ui teal mini basic update button" th:id="'updateType-' + ${type.id}" id="updateType-1">编辑</button>
+                        <button class="ui red mini basic delete button" th:id="'deleteType-' + ${type.id}">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot th:if="${types.totalPages > 1}">
+                <tr>
+                    <th colspan="6">
+                        <div class="ui mini pagination right floated menu">
+                            <a class="item" th:href="@{'/admin/types?page=' + ${types.number-1}}" th:unless="${types.first}">上一页</a>
+                            <a class="item" th:href="@{'/admin/types?page=' + ${types.number+1}}" th:unless="${types.last}">下一页</a>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<!--登录模态框-->
+<div class="ui tiny modal" id="add-modal">
+    <div class="ui header">
+        分类登录
+    </div>
+    <div class="content">
+        <form class="ui form" th:action="@{/admin/type/save}" th:method="post">
+            <div class="inline fields">
+                <label for="addName">名称</label>
+                <div class="fourteen wide field">
+                    <input type="text" id="addName" name="name">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui approve button">确定</div>
+    </div>
+</div>
+
+<!--编辑模态框-->
+<div class="ui tiny modal" id="update-modal">
+    <div class="ui header">
+        分类更新
+    </div>
+    <div class="content">
+        <form class="ui form" th:action="@{/admin/type/save}" th:method="post">
+            <div class="inline fields">
+                <label for="updateName">名称</label>
+                <input type="hidden" name="id">
+                <div class="fourteen wide field">
+                    <input type="text" id="updateName" name="name">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui approve button">确定</div>
+    </div>
+</div>
+
+<!--删除模态框-->
+<div class="ui mini modal" id="delete-modal">
+    <div class="content">
+        确定删除该分类吗？
+        <form class="ui form" th:action="@{/admin/type/delete}" th:method="post">
+            <div class="field">
+                <input type="hidden" name="id">
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui approve button">确认</div>
+    </div>
+</div>
+
+<!-- 底部footer -->
+<footer class="ui center aligned inverted attached segment" th:replace="admin/_fragments :: footer">
+    <div class="ui container">
+        <div class="ui stackable inverted divided grid">
+            <div class="three wide column">空栏1</div>
+            <div class="three wide column">空栏2</div>
+            <div class="three wide column">空栏3</div>
+            <div class="seven wide column">空栏4</div>
+        </div>
+        <div class="ui section divider"></div>
+        <p class="m-opacity-tiny">Copyright © 2016 - 2022 Lirenmi Designed by Lirenmi</p>
+    </div>
+</footer>
+
+<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+<script type="text/javascript">
+    $("#menu-item-toggle").on("click", function () {
+        $("#nav-menu h2").nextAll().toggleClass("m-mobile-hide");
+    });
+
+    $(".ui.dropdown").dropdown({
+        on: "hover"
+    });
+
+    $('.message .close')
+        .on('click', function() {
+            $(this)
+                .closest('.message')
+                .transition('fade')
+            ;
+        })
+    ;
+
+    // 登录
+    $(".ui.basic.add.button").on("click", function () {
+        $('#add-modal')
+            .modal({
+                closable  : false,
+                onApprove : function () {
+                    $('#add-modal .ui.form').submit();
+                    return false;
+                }
+            })
+            .modal('show');
+    })
+
+    // 更新
+    $(".ui.basic.update.button").on("click", function () {
+        let typeId = $(this).attr("id").split("-")[1];
+        let typeName = $(this).parent().prev().text();
+        let form = $('#update-modal .ui.form');
+        form.find('input[name="id"]').val(typeId);
+        form.find('input[name="name"]').val(typeName);
+
+        $('#update-modal')
+            .modal({
+                closable  : false,
+                onApprove : function () {
+                    form.submit();
+                    return true;
+                }
+            })
+            .modal('show');
+    })
+
+    // 删除
+    $(".ui.basic.delete.button").on("click", function () {
+        let typeId = $(this).attr("id").split("-")[1];
+        let form = $('#delete-modal .ui.form');
+        form.find('input[name="id"]').val(typeId);
+        // let param = { "id": typeId };
+
+        $('#delete-modal')
+            .modal({
+                closable  : false,
+                onApprove : function () {
+                    // $.post("/admin/type/delete", param, function(data,status) {
+                    //     if(status === "success") {
+                    //         window.location.href;
+                    //         window.alert(1);
+                    //     }
+                    // });
+                    form.submit();
+                    return true;
+                }
+            })
+            .modal('show');
+    })
+
+    $(".ui.form").form({
+        fields: {
+            name: {
+                identifier: 'name',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: '分类名称不能为空！'
+                    },
+                    {
+                        type: 'maxLength[20]',
+                        prompt: '分类名称长度不能超过2个字符！'
+                    }
+                ]
+            }
+        },
+        inline : true,
+        on     : 'submit'
+    })
+</script>
+</body>
+</html>

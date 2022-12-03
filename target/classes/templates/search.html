@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查询结果</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/me.css">
+</head>
+<body>
+    <!-- 导航 -->
+    <nav class="ui inverted attached segment m-shadow-small" th:replace="_fragments :: menu(1)">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu" id="nav-menu">
+                <h2 class="ui teal header item">Blog</h2>
+                <a href="#" class="item m-mobile-hide"><i class="small home icon"></i>首页</a>
+                <a href="#" class="item m-mobile-hide"><i class="small idea icon"></i>分类</a>
+                <a href="#" class="item m-mobile-hide"><i class="small tags icon"></i>标签</a>
+                <a href="#" class="item m-mobile-hide"><i class="small info icon"></i>关于我</a>
+                <div class="right item m-mobile-hide">
+                    <div class="ui icon basic input">
+                        <input type="text" class="ui input" placeholder="Search...">
+                        <i class="search link icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="ui black icon button m-right-top m-not-mobile-hide" id="menu-item-toggle">
+                <i class="sidebar icon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 中间内容 -->
+    <div class="m-container-width-small" style="flex: 1">
+        <div class="ui container m-padded-tb-big">
+            <!-- 列表头部 -->
+            <div class="ui top attached segment">
+                <div class="ui two column middle aligned grid">
+                    <div class="column">
+                        <h3 class="ui teal header">检索结果</h3>
+                    </div>
+                    <div class="right aligned column">
+                        共<h2 class="ui orange header m-inline-block" th:text="${pageQueryBlog.totalElements}">14</h2>篇
+                    </div>
+                </div>
+            </div>
+            <!-- 消息 -->
+            <div class="ui positive message" th:if="${message}">
+                <i class="close icon"></i>
+                <div class="header" th:text="${message}">
+                    没有找到您想要的信息
+                </div>
+            </div>
+
+            <!-- 列表内容 -->
+            <div class="ui top attached teal segment" th:unless="${pageQueryBlog.totalElements == 0}">
+                <div class="ui padded vertical segment" th:each="blog:${pageQueryBlog.content}">
+                    <div class="ui mobile reversed stackable middle aligned grid">
+                        <div class="eleven wide column">
+                            <h3 class="ui header" th:text="${blog.title}">你真的理解什么是财富自由吗？</h3>
+                            <p th:text="|${blog.description}......|">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，
+                                只是大家都那么做而已…...</p>
+                            <div class="ui stackable grid">
+                                <div class="eleven wide column">
+                                    <div class="ui mini horizontal link list">
+                                        <div class="item">
+                                            <img src="../static/images/stevie.jpeg" th:src="@{${blog.user.avatar}}" alt="" class="ui avatar image">
+                                            <div class="content"><a href="#" class="header" th:text="${blog.user.password}">Stevie</a></div>
+                                        </div>
+                                        <div class="item">
+                                            <i class="calendar icon"></i> <span th:text="${#dates.format(blog.createAt, 'yyyy-MM-dd')}"> 2022-03-10 </span>
+                                        </div>
+                                        <div class="item">
+                                            <i class="eye icon"></i><span th:text="${blog.views}">1000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right aligned five wide column">
+                                    <a href="＃" target="_blank" class="ui teal basic label" th:text="${blog.type.name}">认知升级</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="five wide column">
+                            <a href="#" target="_blank">
+                                <img src="https://picsum.photos/id/1/800/450" alt="" class="ui rounded image" th:src="@{${blog.firstPicture}}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--/*-->
+                <div class="ui vertical segment">
+                    <div class="ui mobile reversed stackable grid">
+                        <div class="eleven wide column">
+                            <h3 class="ui header">你真的理解什么是财富自由吗？</h3>
+                            <p>正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，
+                                只是大家都那么做而已…...</p>
+                            <div class="ui stackable grid">
+                                <div class="eleven wide column">
+                                    <div class="ui mini horizontal link list">
+                                        <div class="item">
+                                            <img src="../static/images/stevie.jpeg" alt="" class="ui avatar image">
+                                            <div class="content"><a href="#" class="header">Stevie</a></div>
+                                        </div>
+                                        <div class="item">
+                                            <i class="calendar icon"></i> 2022-03-10
+                                        </div>
+                                        <div class="item">
+                                            <i class="eye icon"></i> 1000
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right aligned five wide column">
+                                    <a href="＃" target="_blank" class="ui teal basic label">认知升级</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="five wide column">
+                            <a href="#" target="_blank">
+                                <img src="https://picsum.photos/id/1/800/450" alt="" class="ui rounded image">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--*/-->
+            </div>
+
+            <!-- 列表的底部分页区域 -->
+            <div class="ui bottom attached segment" th:if="${pageQueryBlog.totalPages}>1">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <a href="#" th:href="@{/(page=${pageQueryBlog.number}-1)}" th:unless="${pageQueryBlog.first}" class="ui teal tiny basic button">上一页</a>
+                    </div>
+                    <div class="right aligned column">
+                        <a href="#" th:href="@{/(page=${pageQueryBlog.number}+1)}" th:unless="${pageQueryBlog.last}" class="ui teal tiny basic button">下一页</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部footer -->
+    <footer class="ui center aligned inverted attached segment" th:replace="_fragments :: footer">
+        <div class="ui container">
+            <div class="ui stackable inverted divided grid">
+                <div class="three wide column">空栏1</div>
+                <div class="three wide column">空栏2</div>
+                <div class="three wide column">空栏3</div>
+                <div class="seven wide column">空栏4</div>
+            </div>
+            <div class="ui section divider"></div>
+            <p class="m-opacity-tiny">Copyright © 2016 - 2022 Lirenmi Designed by Wang Huifang</p>
+        </div>
+    </footer>
+
+    <!--/*/<th:block th:replace="_fragments :: script">/*/-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <!--/*/</th:block>/*/-->
+    <script>
+        //消息提示关闭初始化
+        $('.message .close')
+            .on('click', function () {
+                $(this)
+                    .closest('.message')
+                    .transition('fade');
+        });
+    </script>
+</body>
+</html>
